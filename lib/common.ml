@@ -8,3 +8,5 @@ module SeqMonad = struct
   let (>>=) m f = Seq.concat_map f m
   let return = seq_unit
 end
+
+module Log = Dolog.Log

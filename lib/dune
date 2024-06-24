@@ -1,2 +1,3 @@
 (library
- (name needlework_scenario_generator))
+ (name needlework_scenario_generator)
+ (libraries dolog))
