@@ -89,7 +89,12 @@ let read_rules xml =
 
 let read_vsys_entry xml =
   let address_entries = xml // "address" |> Xml.children in
-  let address_grps = xml // "address-group" |> Xml.children in
+  let address_grps =
+    match xml / "address-group" with
+    | [] -> []
+    | [xml] -> Xml.children xml
+    | _ :: _ -> failwith "akan"
+  in
   let book = address_book_of_xmls address_entries address_grps in
   let rules = read_rules xml in
   (book, rules)

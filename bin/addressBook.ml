@@ -37,7 +37,7 @@ let unit x = List.to_seq [x]
 
 let rec find book name =
   match List.assoc_opt name book with
-  | None -> []
+  | None -> Log.warn "AddressBook.find: name '%s' does not found" name; []
   | Some (Group names) ->
      List.concat_map (find book) names
   | Some a -> [a]
