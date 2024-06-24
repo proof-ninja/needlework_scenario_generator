@@ -13,6 +13,9 @@ bug-reports:
 depends: [
   "ocaml"
   "dune" {>= "3.16"}
+  "xml-light"
+  "csv"
+  "ipaddr"
   "odoc" {with-doc}
 ]
 build: [

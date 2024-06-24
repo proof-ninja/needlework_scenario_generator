@@ -1,4 +1,4 @@
 (executable
  (public_name needlework_scenario_generator)
  (name main)
- (libraries needlework_scenario_generator))
+ (libraries needlework_scenario_generator xml-light csv ipaddr))

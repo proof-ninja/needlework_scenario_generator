@@ -19,7 +19,7 @@
  (name needlework_scenario_generator)
  (synopsis "Needlework scenario testing generator")
  (description "A longer description")
- (depends ocaml dune)
+ (depends ocaml dune xml-light csv ipaddr)
  (tags
   (ocaml needlework testing)))
 
