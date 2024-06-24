@@ -12,7 +12,7 @@ bug-reports:
   "https://github.com/proof-ninja/needlework_scenario_generator/issues"
 depends: [
   "ocaml"
-  "dune" {>= "3.16"}
+  "dune" {>= "3.0"}
   "xml-light"
   "csv"
   "ipaddr"
