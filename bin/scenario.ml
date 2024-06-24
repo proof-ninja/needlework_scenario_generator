@@ -29,13 +29,13 @@ let gen_addr addr =
   | AddressBook.SingleHost host -> `IP (Gen.return host)
   | INet pre -> `IP (AddressBook.gen_of_prefix pre)
   | FQDN url -> `FQDN url
-  | Group _ -> failwith "Scenario.gen_addr: ここにGroupはきーひんはず"
+  | Group _ -> failwith "Scenario.gen_addr: unexpected Group"
 
 let gen_aux book rule : (string * string * string) Gen.t =
   let open Gen in
   Gen.choose (Rule.sources book rule) >>= fun src_addr ->
   match gen_addr src_addr with
-  | `FQDN url -> failwith (!%"sourceでFQDNが来るなんて想定外やで: %s" url)
+  | `FQDN url -> failwith (!%"Scenario.gen_aux: unexpected FQDN in source: %s" url)
   | `IP addrs ->
      addrs >>= fun src ->
      let src_ip = Ip.to_string src in

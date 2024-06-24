@@ -93,7 +93,7 @@ let read_vsys_entry xml =
     match xml / "address-group" with
     | [] -> []
     | [xml] -> Xml.children xml
-    | _ :: _ -> failwith "akan"
+    | _ :: _ -> failwith (!%"Reader.read_vsys_entry: unexpected multiple address-group: \n%s" (Xml.to_string xml))
   in
   let book = address_book_of_xmls address_entries address_grps in
   let rules = read_rules xml in
