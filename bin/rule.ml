@@ -14,9 +14,7 @@ let dump t =
     (String.concat ", " t.destination)
 
 let addresses book names =
-  let open SeqMonad in
-  List.to_seq names >>= fun name ->
-  AddressBook.find book name
+  List.concat_map (AddressBook.find book) names
 
 let sources book t =
   addresses book t.source

@@ -33,19 +33,14 @@ let dump t =
   List.map (fun (name, addr) -> !%"[%s -> %s]" name (item addr)) t
   |> String.concat "\n  "
 
-(*let find name book = List.assoc_opt name book *)
-
-(*let inet_range prefix =
-  (P.first prefix, P.last prefix)
-*)
 let unit x = List.to_seq [x]
 
 let rec find book name =
   match List.assoc_opt name book with
-  | None -> Seq.empty
+  | None -> []
   | Some (Group names) ->
-     Seq.concat_map (find book) (List.to_seq names)
-  | Some a -> unit a
+     List.concat_map (find book) names
+  | Some a -> [a]
 
 let gen_of_prefix pre =
   let (f, l) = Pre.first pre, Pre.last pre in
@@ -56,24 +51,3 @@ let gen_of_prefix pre =
   Int32.add a i
   |> Ip.of_int32
   |> return
-
-let seq_of_prefix pre =
-  gen_of_prefix pre
-  |> Gen.to_seq
-
-(*let seq_of = function
-  | SingleHost host -> unit host
-  | INet pre ->
-     let f,l = P.first pre, P.last pre in
-  | FQDN fqdn -> unit fqdn
-*)
-(* address generator *)
-(* let gen address : string Gen.t = *)
-(*   let open Gen in *)
-(*   match address with *)
-(*   | SingleHost host -> return host *)
-(*   | INet {host; masklen} -> *)
-(*      return host *)
-(*   | Group _ -> *)
-(*      failwith "" *)
-(*   | FQDN url -> return url *)

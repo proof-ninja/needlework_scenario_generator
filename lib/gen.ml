@@ -1,5 +1,3 @@
-
-
 module R = Random.State
 
 type rand = Random.State.t
@@ -60,3 +58,7 @@ let to_seq : 'a gen -> 'a Seq.t = fun gen ->
   Seq.unfold (fun rand ->
       let (x, rand) = run gen rand in
       Some (x, rand)) rand
+
+let choose xs : 'a gen =
+  int (List.length xs) >>= fun i ->
+  fun rand -> (List.nth xs i, rand)
