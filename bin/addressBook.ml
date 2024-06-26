@@ -20,6 +20,9 @@ let of_string s =
   | Ok ip -> SingleHost ip
   | Error _ -> of_cidr s
 
+let mk_book assoc =
+  ("any", of_string "8.8.8.8") :: assoc
+
 let dump t =
   let item = function
     | SingleHost addr -> !%"Single '%s'" (Ip.to_string addr)

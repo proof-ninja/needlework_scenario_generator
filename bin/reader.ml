@@ -32,6 +32,7 @@ let address_book_of_xmls address_entries address_grps =
   in
   List.map address_of_xml address_entries
   @ List.map group_of_xml address_grps
+  |> AddressBook.mk_book
 
 let read_rules xml =
   let rule_of_entry entry =
