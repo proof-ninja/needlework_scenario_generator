@@ -10,7 +10,7 @@ let get_filename () =
 let () =
   Log.set_log_level Log.DEBUG;
   let filename = get_filename () in
-  let xml = Xml.parse_file filename in
+  let xml = XmlUtil.parse_file filename in
   let (book, rules) = Reader.read xml in
   Log.debug "book is:\n  %s" (AddressBook.dump book);
   Log.debug "rules is:\n  %s" (List.map Rule.dump rules |> String.concat "\n  ");
