@@ -59,6 +59,8 @@ module Seq = struct
     if n < 0 then invalid_arg "Seq.take";
     take_aux n xs
 
+  let rec ints i = fun () -> Cons (i, ints (succ i))
+
   let range a b = take (b - a + 1) (ints a)
   let (--) a b = range a b
 
