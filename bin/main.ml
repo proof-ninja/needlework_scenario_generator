@@ -15,7 +15,7 @@ let () =
   Log.debug "book is:\n  %s" (AddressBook.dump book);
   Log.debug "rules is:\n  %s" (List.map Rule.dump rules |> String.concat "\n  ");
   let scenarios =
-    List.map (fun rule -> Scenario.gen book rule) rules
+    List.map (fun rule -> Scenario.seq book rule) rules
     |> List.map (fun seq -> Seq.take 10 seq |> List.of_seq)
     |> List.concat
   in

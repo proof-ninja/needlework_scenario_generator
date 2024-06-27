@@ -54,3 +54,9 @@ let gen_of_prefix pre =
   Int32.add a i
   |> Ip.of_int32
   |> return
+
+let seq_of_prefix pre =
+  let (f, l) = Pre.first pre, Pre.last pre in
+  let a, b = Ip.to_int32 f, Ip.to_int32 l in
+  Seq.range32 a b
+  |> Seq.map Ip.of_int32

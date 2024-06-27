@@ -54,6 +54,39 @@ let gen book rule =
   |> Seq.mapi (fun idx (src_ip, dst_ip, url_domain) ->
          {src_ip; dst_ip; url_domain; description=(desc idx)})
 
+let seq_addr addr =
+  match addr with
+  | AddressBook.SingleHost host -> `IP [host]
+  | INet pre ->
+     let rand = Random.State.make_self_init () in
+     `IP (AddressBook.seq_of_prefix pre |> List.of_seq |> list_shuffle rand)
+  | FQDN url -> `FQDN url
+  | Group _ -> failwith "Scenario.seq_addr: unexpected Group"
+
+let seq_aux book rule =
+  let open ListMonad in
+  Rule.sources book rule >>= fun src_addr ->
+  match seq_addr src_addr with
+  | `FQDN url -> failwith (!%"seq_aux fqdn in source: %s" url)
+  | `IP addrs ->
+     addrs >>= fun src ->
+     let src_ip = Ip.to_string src in
+     Rule.destinations book rule >>= fun dst_addr ->
+     begin match seq_addr dst_addr with
+         | `FQDN url -> [(src_ip, "", url)]
+         | `IP addrs ->
+            addrs >>= fun dst ->
+            return (src_ip, Ip.to_string dst, "")
+     end
+
+
+let seq book rule =
+  let desc idx = !%"%s-%04d" rule.Rule.name (idx+1) in
+  seq_aux book rule
+  |> List.to_seq
+  |> Seq.mapi (fun idx (src_ip, dst_ip, url_domain) ->
+         {src_ip; dst_ip; url_domain; description=(desc idx)})
+
 let to_csv ss =
   let header = [|
     "protocol"; "src-ip"; "src-port(option)"; "src-nat-ip(option)"; "is-receiver-physical(option)";
