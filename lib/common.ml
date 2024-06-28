@@ -22,6 +22,22 @@ let rec list_shuffle rand xs =
      | Some(x, xs) -> x :: list_shuffle rand xs
      | None -> []
 
+let rec elem x xs =
+  match xs with
+  | [] -> false
+  | y :: ys -> x = y || elem x ys
+
+let list_uniques l =
+  let rec helper l acc =
+    match l with
+    | [] -> acc
+    | x :: xs ->
+        if elem x acc then
+          helper xs acc
+        else
+          helper xs (x :: acc)
+  in List.rev (helper l [])
+
 module SeqMonad = struct
   type 'a t = 'a Seq.t
 

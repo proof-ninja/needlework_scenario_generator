@@ -47,11 +47,14 @@ let gen_aux book rule : (string * string * string) Gen.t =
         return (src_ip, Ip.to_string dst, "")
      end
 
-let gen book rule =
+let gen n book rule =
   let desc idx = !%"%s-%04d" rule.Rule.name (idx+1) in
   gen_aux book rule
   |> Gen.to_seq
-  |> Seq.mapi (fun idx (src_ip, dst_ip, url_domain) ->
+  |> Seq.take n
+  |> List.of_seq
+  |> list_uniques
+  |> List.mapi (fun idx (src_ip, dst_ip, url_domain) ->
          {src_ip; dst_ip; url_domain; description=(desc idx)})
 
 let seq_addr addr =
